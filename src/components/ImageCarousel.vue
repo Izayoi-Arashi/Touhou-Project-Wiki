@@ -61,8 +61,9 @@ onUnmounted(stopAutoplay)
 <style scoped>
 .carousel {
   position: relative;
-  /* 统一画框：固定高度统一视觉；contain 保证每图完整不裁；
-     黑底填缝避免不同比例图的留白参差 */
+  /* 统一画框：固定 360x480，cover 满铺裁剪。
+     原图比例 0.707~0.75 与画框 0.746 相差 ≤5%，
+     仅裁两侧 ≤5% 窄边即可满铺，无任何留白 */
   width: min(360px, 100%);
   margin: 20px auto 0;
   overflow: hidden;
@@ -92,7 +93,7 @@ onUnmounted(stopAutoplay)
   display: block;
   height: 100%;
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
   cursor: pointer;
 }
 
