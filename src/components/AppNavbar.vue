@@ -21,23 +21,28 @@ const navItems = [
 const activeIndex = computed(() => navItems.findIndex((item) => item.match(route.value.path)))
 
 // 上下联通等宽：展开时把菜单几何精确对齐触发块 li
-// （popper 按内层 span 定位，与 li 边缘不重合；且其定位 update 晚于
-// visible-change 事件，故须等它写完内联样式后再覆盖 left/top/width）
+// （popper 按内层 span 定位，与 li 边缘不重合；且 Popper v1 自己也用 rAF 调度
+// 定位更新，与单次覆盖存在时序竞态——不同机器胜负不同，故用 rAF 循环在
+// 展开动画期间持续断言几何，保证任何时序下最终都收敛到正确位置）
 function onVisibleChange(visible) {
   if (!visible) return
-  nextTick(() => {
-    requestAnimationFrame(() => {
-      const li = document.querySelector('.nav .user-item')
-      const menu = document.querySelector('.el-dropdown-menu')
-      if (!li || !menu) return
+  const start = performance.now()
+  const enforce = () => {
+    const li = document.querySelector('.nav .user-item')
+    const menu = document.querySelector('.el-dropdown-menu')
+    if (li && menu) {
       const rect = li.getBoundingClientRect()
       menu.style.width = li.offsetWidth + 'px'
       // popper 挂在 body 上用文档坐标：视口坐标必须加滚动量，否则页面非顶部时
       // 菜单会被定位到当前视口之外（表现即"呼不出来"）
-      menu.style.left = rect.left + window.scrollX + 'px'
-      menu.style.top = rect.bottom + window.scrollY + 'px'
-    })
-  })
+      const left = rect.left + window.scrollX + 'px'
+      const top = rect.bottom + window.scrollY + 'px'
+      if (menu.style.left !== left) menu.style.left = left
+      if (menu.style.top !== top) menu.style.top = top
+    }
+    if (performance.now() - start < 600) requestAnimationFrame(enforce)
+  }
+  nextTick(() => requestAnimationFrame(enforce))
 }
 
 function onCommand(command) {
