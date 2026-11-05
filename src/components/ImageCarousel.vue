@@ -61,8 +61,8 @@ onUnmounted(stopAutoplay)
 <style scoped>
 .carousel {
   position: relative;
-  /* 画框贴合角色图：竖版立绘按高度 480px 显示，取最宽比例 0.75(1280x1706) 定框宽，
-     其余图 contain 完整显示仅余 ≤14px 细边，消除旧版 800px 白框的大片留白 */
+  /* 统一画框：固定高度统一视觉；contain 保证每图完整不裁；
+     黑底填缝避免不同比例图的留白参差 */
   width: min(360px, 100%);
   margin: 20px auto 0;
   overflow: hidden;
@@ -70,9 +70,7 @@ onUnmounted(stopAutoplay)
   flex-direction: column;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  background-color: #111;
 }
 
 .track {
@@ -82,6 +80,7 @@ onUnmounted(stopAutoplay)
 
 .slide {
   min-width: 100%;
+  height: 480px;
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -91,7 +90,7 @@ onUnmounted(stopAutoplay)
 /* 角色图为竖版（0.69~0.75）：统一 360x480 画框 + contain 完整显示，不再裁剪 */
 .slide-img {
   display: block;
-  height: 480px;
+  height: 100%;
   width: 100%;
   object-fit: contain;
   cursor: pointer;
