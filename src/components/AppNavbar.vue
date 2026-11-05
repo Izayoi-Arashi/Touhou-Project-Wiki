@@ -1,5 +1,5 @@
 <script setup>
-import { computed, getCurrentInstance } from 'vue'
+import { computed, getCurrentInstance, nextTick } from 'vue'
 import { Message } from 'element-ui'
 import { useUserStore } from '../stores/user'
 import router from '../router'
@@ -19,6 +19,24 @@ const navItems = [
 
 // 滑块跟随高亮项移动；用户菜单占据第 5 格（各占 20%）
 const activeIndex = computed(() => navItems.findIndex((item) => item.match(route.value.path)))
+
+// 上下联通等宽：展开时把菜单几何精确对齐触发块 li
+// （popper 按内层 span 定位，与 li 边缘不重合；且其定位 update 晚于
+// visible-change 事件，故须等它写完内联样式后再覆盖 left/top/width）
+function onVisibleChange(visible) {
+  if (!visible) return
+  nextTick(() => {
+    requestAnimationFrame(() => {
+      const li = document.querySelector('.nav .user-item')
+      const menu = document.querySelector('.el-dropdown-menu')
+      if (!li || !menu) return
+      const rect = li.getBoundingClientRect()
+      menu.style.width = li.offsetWidth + 'px'
+      menu.style.left = rect.left + 'px'
+      menu.style.top = rect.bottom + 'px'
+    })
+  })
+}
 
 function onCommand(command) {
   if (command === 'logout') {
@@ -42,7 +60,7 @@ function onCommand(command) {
       {{ item.label }}
     </li>
     <li class="user-item">
-      <el-dropdown class="user-dropdown" @command="onCommand">
+      <el-dropdown class="user-dropdown" @command="onCommand" @visible-change="onVisibleChange">
         <span class="user-trigger">
           {{ store.currentUser ? store.currentUser.uname : '未登入' }}
           <span class="arrow">▾</span>
