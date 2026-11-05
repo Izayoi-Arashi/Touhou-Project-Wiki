@@ -32,8 +32,10 @@ function onVisibleChange(visible) {
       if (!li || !menu) return
       const rect = li.getBoundingClientRect()
       menu.style.width = li.offsetWidth + 'px'
-      menu.style.left = rect.left + 'px'
-      menu.style.top = rect.bottom + 'px'
+      // popper 挂在 body 上用文档坐标：视口坐标必须加滚动量，否则页面非顶部时
+      // 菜单会被定位到当前视口之外（表现即"呼不出来"）
+      menu.style.left = rect.left + window.scrollX + 'px'
+      menu.style.top = rect.bottom + window.scrollY + 'px'
     })
   })
 }
