@@ -33,8 +33,23 @@
 </template>
 
 <style scoped>
+/* 欢迎标题：字距 + 珊瑚红光晕，呼应主题色 */
+.glass-card h1 {
+  letter-spacing: 3px;
+  text-shadow: 0 2px 12px rgba(240, 128, 128, 0.45);
+}
+
 .g-li {
+  position: relative;
   margin: 6px 0 6px 2em;
   line-height: 1.8;
+}
+
+/* 三种含义：樱花项目符号 */
+.g-li::before {
+  content: '✿';
+  position: absolute;
+  left: -1.3em;
+  color: #f08080;
 }
 </style>

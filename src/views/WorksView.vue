@@ -66,6 +66,12 @@ import { works } from '../data/works'
   width: 100%;
   max-width: 300px;
   border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.p-img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .meta-line {

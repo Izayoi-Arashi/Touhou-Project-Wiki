@@ -89,12 +89,19 @@ function segs(value) {
 }
 
 .back-link {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   font-size: 14px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .back-link:hover {
+  background-color: #f08080;
+  border-color: #f08080;
   color: #fff;
 }
 
@@ -116,6 +123,12 @@ function segs(value) {
   width: 100%;
   max-width: 300px;
   border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.r-img img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .para {

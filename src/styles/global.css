@@ -48,8 +48,20 @@ body {
   max-width: 1200px;
   color: #fff;
   background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
   backdrop-filter: blur(10px);
+}
+
+/* 路由切换淡入淡出（WikiLayout 的 transition name=page-fade） */
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.page-fade-enter,
+.page-fade-leave-to {
+  opacity: 0;
 }
 
 .glass-card h2::before {

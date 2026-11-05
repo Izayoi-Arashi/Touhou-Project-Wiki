@@ -94,4 +94,27 @@ function handleChange() {
   margin-top: 10px;
   margin-bottom: 5px;
 }
+
+/* 暗色玻璃卡上的表单可用性：标签白色，输入框与登录页同款（透明底 + 白下划线） */
+.alter-card :deep(.el-form-item__label) {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.alter-card :deep(.el-input__inner) {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 0;
+  color: #fff;
+  height: 40px;
+  line-height: 40px;
+}
+
+.alter-card :deep(.el-input__inner:focus) {
+  border-bottom-color: #f08080;
+}
+
+.alter-card :deep(.el-input__suffix) {
+  color: rgba(255, 255, 255, 0.8);
+}
 </style>
