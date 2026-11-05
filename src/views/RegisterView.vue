@@ -78,7 +78,7 @@ function handleRegister() {
       </p>
     </div>
     <p class="copyright">
-      &copy; <a href="https://www.arashiizayoi.xin" target="_blank" rel="noopener">2024 Arashi Izayoi . All rights reserved.</a>
+      &copy; <a href="https://rain-sealedletter.top/" target="_blank" rel="noopener">2024 Arashi Izayoi . All rights reserved.</a>
     </p>
   </BgCarousel>
 </template>

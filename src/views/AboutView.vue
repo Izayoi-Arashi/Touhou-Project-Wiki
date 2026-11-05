@@ -7,7 +7,9 @@ import ExternalLink from '../components/ExternalLink.vue'
     <div class="glass-card" style="text-align: center">
       <h1>基于前端技术的东方Project同人wiki</h1>
       <h3 style="margin-top: 12px">
-        <ExternalLink label="作者主页" href="https://www.arashiizayoi.xin" />
+        <ExternalLink label="作者主页" href="https://rain-sealedletter.top/" />
+        <span style="margin: 0 10px; color: rgba(255, 255, 255, 0.4)">|</span>
+        <ExternalLink label="项目地址" href="https://github.com/Izayoi-Arashi/Touhou-Project-Wiki" />
       </h3>
     </div>
 
