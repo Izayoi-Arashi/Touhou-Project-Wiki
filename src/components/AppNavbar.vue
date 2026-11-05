@@ -131,15 +131,17 @@ function onCommand(command) {
   background-color: #f08080;
   border: 1px solid #f08080;
   border-radius: 0 0 8px 8px;
-  padding: 6px 0;
+  padding: 0;
   z-index: 2001;
 }
 
+/* 每项严格 50px = 触发块高度，与导航读作同一套网格 */
 .menu-item {
+  height: 50px;
+  line-height: 50px;
   color: #fff;
   text-align: center;
   font-size: 14px;
-  padding: 13px 0;
   cursor: pointer;
 }
 
@@ -150,7 +152,6 @@ function onCommand(command) {
 
 .menu-item--divided {
   border-top: 1px solid rgba(255, 255, 255, 0.35);
-  margin-top: 6px;
 }
 
 .menu-fade-enter-active,
