@@ -128,9 +128,21 @@ function onCommand(command) {
   background-color: lightcoral;
 }
 
+/* 下拉根节点与触发区撑满整个珊瑚红块：悬停/点击块内任意位置均可触发 */
+.user-dropdown {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 .user-trigger {
   display: inline-flex;
+  width: 100%;
+  height: 100%;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   color: #fff;
   font-size: 18px;
