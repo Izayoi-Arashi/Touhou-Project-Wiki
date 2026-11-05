@@ -34,7 +34,7 @@ import { works } from '../data/works'
         </div>
         <div class="w-img">
           <img class="p-img" :src="work.image" :alt="work.imageCaption" />
-          <h6 style="text-align: center">{{ work.imageCaption }}</h6>
+          <h6 class="img-caption">{{ work.imageCaption }}</h6>
         </div>
       </div>
     </div>
@@ -59,7 +59,13 @@ import { works } from '../data/works'
 
 .w-img {
   flex: 1;
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img-caption {
+  margin: 8px 0 0;
 }
 
 .p-img {
@@ -103,10 +109,6 @@ import { works } from '../data/works'
   .work-body {
     flex-direction: column;
     padding-left: 0;
-  }
-
-  .w-img {
-    text-align: center;
   }
 }
 </style>
