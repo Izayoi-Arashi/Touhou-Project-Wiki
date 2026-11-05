@@ -1,11 +1,10 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { Message } from 'element-ui'
 import { useUserStore } from '../stores/user'
+import router from '../router'
 import BgCarousel from '../components/BgCarousel.vue'
 
-const router = useRouter()
 const store = useUserStore()
 const formRef = ref()
 const form = reactive({ uname: '', pwd: '' })
@@ -20,10 +19,10 @@ function handleLogin() {
     if (!valid) return
     const err = store.login(form.uname, form.pwd)
     if (err) {
-      ElMessage.error(err)
+      Message.error(err)
       return
     }
-    ElMessage.success('登入成功！')
+    Message.success('登入成功！')
     router.push('/home')
   })
 }
@@ -35,14 +34,13 @@ function handleLogin() {
       <h2>登入</h2>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="0">
         <el-form-item prop="uname">
-          <el-input v-model="form.uname" placeholder="用户名" size="large" @keyup.enter="handleLogin" />
+          <el-input v-model="form.uname" placeholder="用户名" @keyup.enter="handleLogin" />
         </el-form-item>
         <el-form-item prop="pwd">
           <el-input
             v-model="form.pwd"
             type="password"
             placeholder="密码"
-            size="large"
             show-password
             @keyup.enter="handleLogin"
           />
@@ -80,27 +78,28 @@ function handleLogin() {
   font-size: 24px;
 }
 
-/* 暗色背景下的输入框：透明底 + 白色下划线，还原旧版样式 */
-.auth-box :deep(.el-input__wrapper) {
-  background: transparent;
-  box-shadow: none;
-  border-radius: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.9);
-}
-
-.auth-box :deep(.el-input__wrapper.is-focus) {
-  border-bottom-color: var(--el-color-primary);
-}
-
+/* 暗色背景下的输入框：透明底 + 白色下划线，还原旧版样式
+   （Element UI 的输入框就是 .el-input__inner 本体，没有 EP 的 __wrapper 包裹层） */
 .auth-box :deep(.el-input__inner) {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 0;
   color: #fff;
+  height: 40px;
+  line-height: 40px;
+}
+
+.auth-box :deep(.el-input__inner:focus) {
+  border-bottom-color: #f08080;
 }
 
 .auth-box :deep(.el-input__inner::placeholder) {
   color: rgba(255, 255, 255, 0.55);
 }
 
-.auth-box :deep(.el-input__password) {
+/* 密码可见性切换图标 */
+.auth-box :deep(.el-input__suffix) {
   color: rgba(255, 255, 255, 0.8);
 }
 
@@ -117,7 +116,7 @@ function handleLogin() {
 }
 
 .switch-link {
-  color: var(--el-color-primary);
+  color: #f08080;
   text-decoration: none;
 }
 

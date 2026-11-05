@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { Message } from 'element-ui'
 import { useUserStore } from '../stores/user'
 
 const store = useUserStore()
@@ -30,10 +30,10 @@ function handleChange() {
     if (!valid) return
     const err = store.changePassword(form.currentPwd, form.newPwd)
     if (err) {
-      ElMessage.error(err)
+      Message.error(err)
       return
     }
-    ElMessage.success('修改成功！')
+    Message.success('修改成功！')
     formRef.value.resetFields()
   })
 }

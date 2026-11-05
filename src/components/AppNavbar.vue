@@ -1,11 +1,13 @@
 <script setup>
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { computed, getCurrentInstance } from 'vue'
+import { Message } from 'element-ui'
 import { useUserStore } from '../stores/user'
+import router from '../router'
 
-const route = useRoute()
-const router = useRouter()
+// Vue Router 3 没有 useRouter/useRoute 组合式 API：
+// 响应式 $route 经组件代理读取，router 单例直接复用模块导出
+const vm = getCurrentInstance().proxy
+const route = computed(() => vm.$route)
 const store = useUserStore()
 
 const navItems = [
@@ -16,12 +18,12 @@ const navItems = [
 ]
 
 // 滑块跟随高亮项移动；用户菜单占据第 5 格（各占 20%）
-const activeIndex = computed(() => navItems.findIndex((item) => item.match(route.path)))
+const activeIndex = computed(() => navItems.findIndex((item) => item.match(route.value.path)))
 
 function onCommand(command) {
   if (command === 'logout') {
     store.logout()
-    ElMessage.success('已退出登入')
+    Message.success('已退出登入')
     router.push('/login')
   } else {
     router.push(`/${command}`)

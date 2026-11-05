@@ -52,9 +52,10 @@ const termEra =
       <h6 class="era-note">
         该系列分为<TermTooltip :content="termEra">新作跟旧作</TermTooltip>，在本站若没有特别说明一般指的是新作
       </h6>
-      <template v-for="loc in locations" :key="loc.name">
-        <h4 class="t2">{{ loc.name }}</h4>
-        <p class="para">{{ loc.desc }}</p>
+      <!-- Vue 2 的 key 只能放在 template v-for 的真实子元素上 -->
+      <template v-for="loc in locations">
+        <h4 :key="loc.name" class="t2">{{ loc.name }}</h4>
+        <p :key="loc.name + '-desc'" class="para">{{ loc.desc }}</p>
       </template>
     </div>
 

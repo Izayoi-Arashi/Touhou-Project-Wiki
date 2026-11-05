@@ -1,11 +1,11 @@
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, getCurrentInstance } from 'vue'
 import SpoilerText from '../components/SpoilerText.vue'
 import { getCharacter } from '../data/characters'
 
-const route = useRoute()
-const character = computed(() => getCharacter(route.params.id))
+// Vue Router 3 没有 useRoute 组合式 API：经组件代理读取响应式 $route
+const vm = getCurrentInstance().proxy
+const character = computed(() => getCharacter(vm.$route.params.id))
 
 // 文本段统一处理：字符串包装为单元素数组，{ spoiler } 段渲染为剧透遮罩
 function segs(value) {
@@ -23,9 +23,10 @@ function segs(value) {
         <div class="r-text">
           <h2>简介</h2>
           <p v-for="(para, i) in character.intro" :key="i" class="para">
-            <template v-for="(seg, j) in segs(para)" :key="j">
-              <SpoilerText v-if="typeof seg === 'object'">{{ seg.spoiler }}</SpoilerText>
-              <template v-else>{{ seg }}</template>
+            <!-- Vue 2 的 key 只能放在 template v-for 的真实子元素上 -->
+            <template v-for="(seg, j) in segs(para)">
+              <SpoilerText v-if="typeof seg === 'object'" :key="j + '-s'">{{ seg.spoiler }}</SpoilerText>
+              <span v-else :key="j + '-t'">{{ seg }}</span>
             </template>
           </p>
 
@@ -33,9 +34,9 @@ function segs(value) {
           <div v-for="item in character.profile" :key="item.label" class="profile-row">
             <span class="field-label">{{ item.label }}：</span>
             <p class="inline-text">
-              <template v-for="(seg, j) in segs(item.value)" :key="j">
-                <SpoilerText v-if="typeof seg === 'object'">{{ seg.spoiler }}</SpoilerText>
-                <template v-else>{{ seg }}</template>
+              <template v-for="(seg, j) in segs(item.value)">
+                <SpoilerText v-if="typeof seg === 'object'" :key="j + '-s'">{{ seg.spoiler }}</SpoilerText>
+                <span v-else :key="j + '-t'">{{ seg }}</span>
               </template>
             </p>
           </div>
@@ -49,11 +50,11 @@ function segs(value) {
           <div v-for="rel in character.relations" :key="rel.label" class="indent-line">
             <span>{{ rel.label }}：</span>
             <p class="inline-text">
-              <template v-for="(item, k) in rel.items" :key="k">
-                <router-link v-if="item.to" :to="`/roles/${item.to}`" class="role-link">{{ item.text }}</router-link>
-                <template v-else>{{ item.text }}</template>
-                <span v-if="item.note" class="note">（{{ item.note }}）</span>
-                <span v-if="k < rel.items.length - 1">、</span>
+              <template v-for="(item, k) in rel.items">
+                <router-link v-if="item.to" :to="`/roles/${item.to}`" :key="k + '-l'" class="role-link">{{ item.text }}</router-link>
+                <span v-else :key="k + '-t'">{{ item.text }}</span>
+                <span v-if="item.note" :key="k + '-n'" class="note">（{{ item.note }}）</span>
+                <span v-if="k < rel.items.length - 1" :key="k + '-c'">、</span>
               </template>
             </p>
           </div>

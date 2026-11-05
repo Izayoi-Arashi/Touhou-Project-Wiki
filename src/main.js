@@ -1,16 +1,18 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import ElementPlus from 'element-plus'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-import 'element-plus/dist/index.css'
+import Vue from 'vue'
+import { createPinia, PiniaVuePlugin } from 'pinia'
+import ElementUI from 'element-ui'
+import zhCN from 'element-ui/lib/locale/lang/zh-CN'
+import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
+import { pinia } from './stores'
 import router from './router'
 import './styles/global.css'
 
-const app = createApp(App)
+Vue.use(PiniaVuePlugin)
+Vue.use(ElementUI, { locale: zhCN })
 
-app.use(createPinia())
-app.use(router)
-app.use(ElementPlus, { locale: zhCn })
-
-app.mount('#app')
+new Vue({
+  pinia,
+  router,
+  render: (h) => h(App),
+}).$mount('#app')

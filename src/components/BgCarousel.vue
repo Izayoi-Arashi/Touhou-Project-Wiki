@@ -17,9 +17,9 @@ onUnmounted(() => clearInterval(timer))
 
 <template>
   <div class="bg-page">
-    <Transition name="bg-fade">
+    <transition name="bg-fade">
       <div :key="index" class="bg-fixed-layer" :style="{ backgroundImage: `url(${backgrounds[index]})` }" />
-    </Transition>
+    </transition>
     <slot />
   </div>
 </template>
@@ -30,7 +30,8 @@ onUnmounted(() => clearInterval(timer))
   transition: opacity 1s ease;
 }
 
-.bg-fade-enter-from,
+/* Vue 2 过渡初始态类名是 -enter（EP/Vue3 才是 -enter-from） */
+.bg-fade-enter,
 .bg-fade-leave-to {
   opacity: 0;
 }

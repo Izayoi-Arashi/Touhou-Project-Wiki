@@ -1,5 +1,5 @@
 <script setup>
-import { ElMessageBox } from 'element-plus'
+import { MessageBox } from 'element-ui'
 
 const props = defineProps({
   href: { type: String, required: true },
@@ -11,7 +11,7 @@ const props = defineProps({
 async function onClick(e) {
   e.preventDefault()
   try {
-    await ElMessageBox.confirm('即将打开外部链接，请注意你的安全', '提示', {
+    await MessageBox.confirm('即将打开外部链接，请注意你的安全', '提示', {
       confirmButtonText: '继续访问',
       cancelButtonText: '取消',
       type: 'warning',

@@ -1,13 +1,12 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import router from '../router'
 
 const props = defineProps({
   // [{ image, caption, to }]
   items: { type: Array, required: true },
 })
 
-const router = useRouter()
 const current = ref(0)
 let timer = null
 
