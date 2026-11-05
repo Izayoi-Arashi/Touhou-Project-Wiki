@@ -1,5 +1,5 @@
 <script setup>
-import { computed, getCurrentInstance, nextTick } from 'vue'
+import { computed, getCurrentInstance, ref } from 'vue'
 import { Message } from 'element-ui'
 import { useUserStore } from '../stores/user'
 import router from '../router'
@@ -20,30 +20,9 @@ const navItems = [
 // 滑块跟随高亮项移动；用户菜单占据第 5 格（各占 20%）
 const activeIndex = computed(() => navItems.findIndex((item) => item.match(route.value.path)))
 
-// 上下联通等宽：展开时把菜单几何精确对齐触发块 li
-// （popper 按内层 span 定位，与 li 边缘不重合；且 Popper v1 自己也用 rAF 调度
-// 定位更新，与单次覆盖存在时序竞态——不同机器胜负不同，故用 rAF 循环在
-// 展开动画期间持续断言几何，保证任何时序下最终都收敛到正确位置）
-function onVisibleChange(visible) {
-  if (!visible) return
-  const start = performance.now()
-  const enforce = () => {
-    const li = document.querySelector('.nav .user-item')
-    const menu = document.querySelector('.el-dropdown-menu')
-    if (li && menu) {
-      const rect = li.getBoundingClientRect()
-      menu.style.width = li.offsetWidth + 'px'
-      // popper 挂在 body 上用文档坐标：视口坐标必须加滚动量，否则页面非顶部时
-      // 菜单会被定位到当前视口之外（表现即"呼不出来"）
-      const left = rect.left + window.scrollX + 'px'
-      const top = rect.bottom + window.scrollY + 'px'
-      if (menu.style.left !== left) menu.style.left = left
-      if (menu.style.top !== top) menu.style.top = top
-    }
-    if (performance.now() - start < 600) requestAnimationFrame(enforce)
-  }
-  nextTick(() => requestAnimationFrame(enforce))
-}
+// 菜单是 li 的子元素（absolute top:100%），天生锚在吸顶导航上：
+// 无 popper、无传送、无坐标换算——滚动/悬停语义由构造保证，不依赖任何时序
+const open = ref(false)
 
 function onCommand(command) {
   if (command === 'logout') {
@@ -66,20 +45,18 @@ function onCommand(command) {
     >
       {{ item.label }}
     </li>
-    <li class="user-item">
-      <el-dropdown class="user-dropdown" @command="onCommand" @visible-change="onVisibleChange">
-        <span class="user-trigger">
-          {{ store.currentUser ? store.currentUser.uname : '未登入' }}
-          <span class="arrow">▾</span>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="alter">更改密码</el-dropdown-item>
-            <el-dropdown-item command="about">关于本站</el-dropdown-item>
-            <el-dropdown-item command="logout" divided>退出登入</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+    <li class="user-item" @mouseenter="open = true" @mouseleave="open = false">
+      <span class="user-trigger">
+        {{ store.currentUser ? store.currentUser.uname : '未登入' }}
+        <span class="arrow">▾</span>
+      </span>
+      <transition name="menu-fade">
+        <div v-show="open" class="user-menu">
+          <div class="menu-item" @click="onCommand('alter')">更改密码</div>
+          <div class="menu-item" @click="onCommand('about')">关于本站</div>
+          <div class="menu-item menu-item--divided" @click="onCommand('logout')">退出登入</div>
+        </div>
+      </transition>
     </li>
     <div v-show="activeIndex >= 0" class="slider" :style="{ transform: `translateX(${activeIndex * 100}%)` }" />
   </ul>
@@ -128,15 +105,7 @@ function onCommand(command) {
   background-color: lightcoral;
 }
 
-/* 下拉根节点与触发区撑满整个珊瑚红块：悬停/点击块内任意位置均可触发 */
-.user-dropdown {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-}
-
+/* 触发区撑满整个珊瑚红块：块内任意位置悬停/点击均可触发 */
 .user-trigger {
   display: inline-flex;
   width: 100%;
@@ -151,5 +120,47 @@ function onCommand(command) {
 
 .user-trigger .arrow {
   font-size: 12px;
+}
+
+/* 菜单作为 li 的子元素向下展开：等宽无缝、跟随吸顶导航，不经过 popper */
+.user-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #f08080;
+  border: 1px solid #f08080;
+  border-radius: 0 0 8px 8px;
+  padding: 6px 0;
+  z-index: 2001;
+}
+
+.menu-item {
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  padding: 13px 0;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: #fff;
+  color: #f08080;
+}
+
+.menu-item--divided {
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  margin-top: 6px;
+}
+
+.menu-fade-enter-active,
+.menu-fade-leave-active {
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.menu-fade-enter,
+.menu-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 </style>

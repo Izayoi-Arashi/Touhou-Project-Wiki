@@ -25,35 +25,6 @@
   color: #f08080;
 }
 
-/* 下拉菜单：与触发块上下联通等宽（无缝拼接，悬停反转白底红字）
-   [x-placement] 抬高特异性：压过组件库 .el-popper[x-placement^=bottom] 的 margin-top:12px（箭头空隙） */
-.el-dropdown-menu[x-placement] {
-  background-color: #f08080;
-  border: 1px solid #f08080;
-  border-radius: 0 0 8px 8px;
-  padding: 6px 0;
-  margin: 0;
-}
-.el-dropdown-menu > .popper__arrow {
-  display: none;
-}
-.el-dropdown-menu__item {
-  color: #fff;
-  text-align: center;
-}
-.el-dropdown-menu__item:not(.is-disabled):hover,
-.el-dropdown-menu__item:not(.is-disabled):focus {
-  background-color: #fff;
-  color: #f08080;
-}
-.el-dropdown-menu__item--divided {
-  border-top-color: rgba(255, 255, 255, 0.35);
-  margin-top: 6px;
-}
-.el-dropdown-menu__item--divided:before {
-  background-color: transparent;
-}
-
 * {
   margin: 0;
   padding: 0;
