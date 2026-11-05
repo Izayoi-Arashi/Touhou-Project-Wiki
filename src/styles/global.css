@@ -25,9 +25,31 @@
   color: #f08080;
 }
 
-.el-dropdown-menu__item:not(.is-disabled):hover {
-  background-color: #fef4f4;
+/* 下拉菜单：与触发块同款式（珊瑚红底白字，悬停反转白底红字） */
+.el-dropdown-menu {
+  background-color: #f08080;
+  border: 1px solid #f08080;
+  border-radius: 8px;
+  padding: 4px 0;
+}
+.el-dropdown-menu__item {
+  color: #fff;
+}
+.el-dropdown-menu__item:not(.is-disabled):hover,
+.el-dropdown-menu__item:not(.is-disabled):focus {
+  background-color: #fff;
   color: #f08080;
+}
+.el-dropdown-menu__item--divided {
+  border-top-color: rgba(255, 255, 255, 0.35);
+  margin-top: 6px;
+}
+.el-dropdown-menu__item--divided:before {
+  background-color: transparent;
+}
+.el-popper[x-placement^="bottom"] .popper__arrow,
+.el-popper[x-placement^="bottom"] .popper__arrow::after {
+  border-bottom-color: #f08080;
 }
 
 * {
