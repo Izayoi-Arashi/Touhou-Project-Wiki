@@ -37,7 +37,6 @@
   position: absolute;
   inset: 0;
   background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 4px;
   z-index: 2;
   transition: opacity 0.25s ease;
