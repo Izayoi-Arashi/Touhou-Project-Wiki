@@ -55,15 +55,6 @@ onUnmounted(stopAutoplay)
     </div>
     <button class="ctrl prev" aria-label="上一张" @click="prev">&#10094;</button>
     <button class="ctrl next" aria-label="下一张" @click="next">&#10095;</button>
-    <div class="indicators">
-      <span
-        v-for="(item, i) in items"
-        :key="i"
-        class="dot"
-        :class="{ active: i === current }"
-        @click="goTo(i)"
-      />
-    </div>
   </div>
 </template>
 
@@ -103,7 +94,6 @@ onUnmounted(stopAutoplay)
   height: 480px;
   width: 100%;
   object-fit: contain;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
 }
 
@@ -154,32 +144,5 @@ onUnmounted(stopAutoplay)
   right: 0;
 }
 
-.indicators {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-  padding: 9px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-}
 
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: rgba(255, 255, 255, 0.45);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-.dot:hover {
-  background-color: rgba(255, 255, 255, 0.75);
-}
-
-.dot.active {
-  background-color: #f08080;
-  transform: scale(1.25);
-  box-shadow: 0 0 6px rgba(240, 128, 128, 0.8);
-}
 </style>
