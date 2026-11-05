@@ -74,10 +74,11 @@ onUnmounted(stopAutoplay)
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .track {
@@ -91,7 +92,6 @@ onUnmounted(stopAutoplay)
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  background-color: #fff;
 }
 
 /* 角色图为竖版（0.69~0.75）：统一 360x480 画框 + contain 完整显示，不再裁剪 */
@@ -100,7 +100,7 @@ onUnmounted(stopAutoplay)
   height: 480px;
   width: 100%;
   object-fit: contain;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
 }
 
@@ -109,12 +109,13 @@ onUnmounted(stopAutoplay)
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.65));
   color: #fff;
   text-align: center;
-  padding: 10px;
-  font-size: 16px;
+  padding: 26px 10px 10px;
+  font-size: 15px;
   font-weight: bold;
+  letter-spacing: 1px;
   pointer-events: none;
 }
 
@@ -122,17 +123,24 @@ onUnmounted(stopAutoplay)
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.2);
-  border: none;
-  color: white;
-  padding: 10px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  color: #fff;
   cursor: pointer;
-  font-size: 24px;
-  transition: background-color 0.3s;
+  font-size: 15px;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .ctrl:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(240, 128, 128, 0.85);
+  border-color: #f08080;
 }
 
 .prev {
@@ -146,26 +154,29 @@ onUnmounted(stopAutoplay)
 .indicators {
   display: flex;
   justify-content: center;
-  padding: 10px 0;
-  background: rgba(0, 0, 0, 0.1);
+  align-items: center;
+  gap: 7px;
+  padding: 9px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .dot {
   display: inline-block;
-  width: 15px;
-  height: 15px;
-  background-color: #bbb;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.45);
   border-radius: 50%;
-  margin: 0 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .dot:hover {
-  background-color: #888;
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
 .dot.active {
   background-color: #f08080;
+  transform: scale(1.25);
+  box-shadow: 0 0 6px rgba(240, 128, 128, 0.8);
 }
 </style>
