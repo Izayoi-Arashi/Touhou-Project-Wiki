@@ -1,25 +1,28 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import router from '../router'
 
 const props = defineProps({
   // [{ image, caption, to }]
   items: { type: Array, required: true },
+  // 受控当前索引：由父组件持有，缩略图导航/角色名片与轮播共享同一状态
+  current: { type: Number, required: true },
 })
 
-const current = ref(0)
+const emit = defineEmits(['update:current'])
+
 let timer = null
 
 function goTo(i) {
-  current.value = (i + props.items.length) % props.items.length
+  emit('update:current', (i + props.items.length) % props.items.length)
 }
 
 function prev() {
-  goTo(current.value - 1)
+  goTo(props.current - 1)
 }
 
 function next() {
-  goTo(current.value + 1)
+  goTo(props.current + 1)
 }
 
 function open(item) {
