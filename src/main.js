@@ -11,6 +11,11 @@ import './styles/global.css'
 Vue.use(PiniaVuePlugin)
 Vue.use(ElementUI, { locale: zhCN })
 
+// 主题：启动时从 localStorage 恢复（'light' 加浅色类，缺省暗色）
+if (localStorage.getItem('wiki-theme') === 'light') {
+  document.body.classList.add('light')
+}
+
 new Vue({
   pinia,
   router,

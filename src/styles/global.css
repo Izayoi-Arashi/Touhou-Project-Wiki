@@ -120,3 +120,76 @@ body {
   color: lightcoral;
   margin: 12px 0 6px;
 }
+
+/* ===== 浅色模式（body.light）：卡片转浅、文字转深、背景加白蒙层 =====
+   切换入口在导航栏悬浮钮（AppNavbar），记忆于 localStorage('wiki-theme') */
+body.light {
+  color: #3a3a3a;
+}
+
+/* 背景图压一层白蒙层：WikiLayout 与登录/注册页的 BgCarousel 共用此类 */
+body.light .bg-fixed-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+body.light .glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #3a3a3a;
+}
+
+body.light .glass-card h1,
+body.light .glass-card h2,
+body.light .glass-card h3,
+body.light .glass-card h4,
+body.light .glass-card h5,
+body.light .glass-card h6 {
+  color: #403a3a;
+}
+
+body.light .nav {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+body.light .nav li {
+  color: #b85c5c;
+}
+
+body.light .nav li.active {
+  color: #c04848;
+}
+
+body.light .copyright {
+  color: #666;
+}
+
+body.light .field-label {
+  color: #6a8fc0;
+}
+
+body.light .section-title {
+  color: #c96b6b;
+}
+
+body.light .ext-link {
+  color: #3a8a3a;
+}
+
+/* 角色详情返回胶囊：浅底深字 */
+body.light .back-link {
+  border-color: rgba(0, 0, 0, 0.25);
+  color: #555;
+}
+
+/* 剧透胶囊：浅色卡上改深雾，模糊隐文本体转深 */
+body.light .spoiler-overlay {
+  background: rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+body.light .spoiler-text {
+  color: #3a3a3a;
+}

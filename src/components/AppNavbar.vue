@@ -33,6 +33,15 @@ function onCommand(command) {
     router.push(`/${command}`)
   }
 }
+
+// 暗/浅色切换：写在 body 类上，localStorage 记忆，刷新后由 main.js 恢复
+const isLight = ref(document.body.classList.contains('light'))
+
+function toggleTheme() {
+  isLight.value = !isLight.value
+  document.body.classList.toggle('light', isLight.value)
+  localStorage.setItem('wiki-theme', isLight.value ? 'light' : 'dark')
+}
 </script>
 
 <template>
@@ -59,6 +68,9 @@ function onCommand(command) {
       </transition>
     </li>
     <div v-show="activeIndex >= 0" class="slider" :style="{ transform: `translateX(${activeIndex * 100}%)` }" />
+    <li class="theme-toggle" :title="isLight ? '切换到暗色' : '切换到浅色'" @click="toggleTheme">
+      {{ isLight ? '🌙' : '☀️' }}
+    </li>
   </ul>
 </template>
 
@@ -163,5 +175,38 @@ function onCommand(command) {
 .menu-fade-leave-to {
   opacity: 0;
   transform: translateY(-6px);
+}
+
+/* 暗/浅色悬浮切换钮：fixed 挂在导航右下，不占五格栅格 */
+.theme-toggle {
+  position: fixed;
+  top: 60px;
+  right: 14px;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  line-height: 38px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  color: inherit;
+  background: rgba(20, 20, 20, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  backdrop-filter: blur(6px);
+  z-index: 150;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.theme-toggle:hover {
+  background: rgba(240, 128, 128, 0.85);
+  border-color: #f08080;
+  color: #fff;
+}
+
+body.light .theme-toggle {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #b8541e;
 }
 </style>
