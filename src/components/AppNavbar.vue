@@ -34,6 +34,15 @@ function onCommand(command) {
   }
 }
 
+// 暗/浅色切换：状态写在 body 类上，localStorage 记忆，启动时由 main.js 恢复
+const isLight = ref(document.body.classList.contains('light'))
+
+function toggleTheme() {
+  isLight.value = !isLight.value
+  document.body.classList.toggle('light', isLight.value)
+  localStorage.setItem('wiki-theme', isLight.value ? 'light' : 'dark')
+}
+
 // 暗/浅色切换：写在 body 类上，localStorage 记忆，刷新后由 main.js 恢复
 
 </script>
@@ -55,6 +64,7 @@ function onCommand(command) {
       </span>
       <transition name="menu-fade">
         <div v-show="open" class="user-menu">
+          <div class="menu-item" @click="toggleTheme">{{ isLight ? '🌙 切换暗色' : '☀️ 切换浅色' }}</div>
           <div class="menu-item" @click="onCommand('alter')">更改密码</div>
           <div class="menu-item" @click="onCommand('about')">关于本站</div>
           <div class="menu-item menu-item--divided" @click="onCommand('logout')">退出登入</div>
